@@ -51,7 +51,7 @@ src/
 ├── data/              # Datos que se recorren con map() (homeData.js, dashboardData.js)
 ├── hooks/             # Hooks propios (usePageMeta: título y metadatos SEO)
 ├── pages/             # Una carpeta por página: Home, Login, Dashboard, NotFound
-├── styles/            # Estilos propios mínimos (theme.css)
+├── styles/            # Tema de marca sobre Bootstrap: paleta y tipografías (theme.css)
 ├── App.jsx            # Definición de rutas
 └── main.jsx           # Punto de entrada
 ```
