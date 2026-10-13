@@ -47,6 +47,7 @@ function ProfessionalTeam() {
           params: {
             results: 4,
             nat: 'es',
+            seed: 'nuova-vita',
           },
         })
 

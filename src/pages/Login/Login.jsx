@@ -8,7 +8,7 @@ import LoginForm from '../../components/LoginForm/LoginForm.jsx'
 import usePageMeta from '../../hooks/usePageMeta.js'
 
 function Login() {
-    usePageMeta({
+  usePageMeta({
     title: 'Iniciar Sesión | Nuova Vita',
     description:
       'Accedé al sistema de gestión de Nuova Vita con tus credenciales para consultar historias clínicas, informes y asistencia.',
