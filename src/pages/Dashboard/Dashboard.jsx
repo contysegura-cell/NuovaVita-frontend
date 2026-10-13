@@ -2,6 +2,7 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import DashboardHeader from '../../components/Dashboard/DashboardHeader.jsx'
 import Patients from '../../components/Dashboard/Patients.jsx'
+import ProfessionalTeam from '../../components/Dashboard/ProfessionalTeam.jsx'
 import RecentActivity from '../../components/Dashboard/RecentActivity.jsx'
 import Sidebar from '../../components/Dashboard/Sidebar.jsx'
 import Statistics from '../../components/Dashboard/Statistics.jsx'
@@ -56,6 +57,7 @@ function Dashboard() {
             <Statistics statistics={statistics} />
             <RecentActivity activities={recentActivities} />
             <Patients patients={patients} />
+            <ProfessionalTeam />
           </main>
         </div>
       </Row>
