@@ -96,7 +96,10 @@ cd NuovaVita-frontend
 # 2. Instalar las dependencias
 npm install
 
-# 3. Iniciar el servidor de desarrollo
+# 3. Crear el archivo local de variables de entorno
+cp .env.example .env
+
+# 4. Iniciar el servidor de desarrollo
 npm run dev
 ```
 

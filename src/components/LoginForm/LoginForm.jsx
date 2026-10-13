@@ -4,9 +4,9 @@ import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import InputGroup from 'react-bootstrap/InputGroup'
 import { useNavigate } from 'react-router-dom'
+import { isValidEmail } from '../../utils/validation.js'
 
 const EMAIL_STORAGE_KEY = 'nuovaVita.rememberedEmail'
-const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const MIN_PASSWORD_LENGTH = 6
 
 function LoginForm() {
@@ -25,18 +25,16 @@ function LoginForm() {
   const emailRef = useRef(null)
   const passwordRef = useRef(null)
   const recoveryEmailRef = useRef(null)
-  
+
   useEffect(() => {
     const field = rememberedEmail ? passwordRef : emailRef
     field.current?.focus()
   }, [rememberedEmail])
 
- 
   useEffect(() => {
     if (recoveryOpen) recoveryEmailRef.current?.focus()
   }, [recoveryOpen])
 
-  
   useEffect(() => {
     if (!recoveryStatus) return undefined
 
@@ -44,9 +42,9 @@ function LoginForm() {
     return () => clearTimeout(timerId)
   }, [recoveryStatus])
 
-  const emailIsValid = EMAIL_REGEX.test(email.trim())
+  const emailIsValid = isValidEmail(email)
   const passwordIsValid = password.trim().length >= MIN_PASSWORD_LENGTH
-  const recoveryEmailIsValid = EMAIL_REGEX.test(recoveryEmail.trim())
+  const recoveryEmailIsValid = isValidEmail(recoveryEmail)
 
   const handleLogin = (event) => {
     event.preventDefault()

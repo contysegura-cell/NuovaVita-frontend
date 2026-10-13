@@ -6,6 +6,7 @@ import ProfessionalTeam from '../../components/Dashboard/ProfessionalTeam.jsx'
 import RecentActivity from '../../components/Dashboard/RecentActivity.jsx'
 import Sidebar from '../../components/Dashboard/Sidebar.jsx'
 import Statistics from '../../components/Dashboard/Statistics.jsx'
+import usePageMeta from '../../hooks/usePageMeta.js'
 import {
   alerts,
   appointments,
@@ -13,8 +14,6 @@ import {
   recentActivities,
   reports,
 } from '../../data/dashboardData.js'
-
-import usePageMeta from '../../hooks/usePageMeta.js'
 
 const statistics = [
   {
@@ -36,7 +35,7 @@ const statistics = [
 ]
 
 function Dashboard() {
-    usePageMeta({
+  usePageMeta({
     title: 'Panel Principal | Nuova Vita',
     description:
       'Panel interno de Nuova Vita: estadísticas, actividad reciente y listado de pacientes.',
