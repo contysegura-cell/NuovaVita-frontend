@@ -6,3 +6,7 @@
   color: #fff;
   background-color: #c5714e;
 }
+
+.sidebar-nav .nav-link:not(.active) {
+  color: var(--bs-light);
+}

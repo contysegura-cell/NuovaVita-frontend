@@ -1,57 +1,66 @@
-import Container from 'react-bootstrap/Container'
-import Row from 'react-bootstrap/Row'
 import DashboardHeader from '../../components/Dashboard/DashboardHeader.jsx'
-import Patients from '../../components/Dashboard/Patients.jsx'
 import RecentActivity from '../../components/Dashboard/RecentActivity.jsx'
-import Sidebar from '../../components/Dashboard/Sidebar.jsx'
 import Statistics from '../../components/Dashboard/Statistics.jsx'
+import ErrorState from '../../components/Feedback/ErrorState.jsx'
+import LoadingState from '../../components/Feedback/LoadingState.jsx'
+import { useAsync } from '../../hooks/useAsync.js'
 import {
-  alerts,
-  appointments,
-  patients,
-  recentActivities,
-  reports,
-} from '../../data/dashboardData.js'
+  activityService,
+  alertService,
+  appointmentService,
+  patientService,
+  reportService,
+} from '../../services/index.js'
+import { formatRelativeTime, isToday } from '../../utils/date.js'
 
-const statistics = [
-  {
-    label: 'Pacientes activos',
-    value: patients.filter((patient) => patient.status === 'active').length,
-  },
-  {
-    label: 'Informes pendientes',
-    value: reports.filter((report) => report.status === 'pending').length,
-  },
-  {
-    label: 'Turnos de hoy',
-    value: appointments.filter((appointment) => appointment.date === 'today').length,
-  },
-  {
-    label: 'Alertas',
-    value: alerts.filter((alert) => !alert.resolved).length,
-  },
-]
+const RECENT_ACTIVITY_LIMIT = 5
+
+async function loadDashboard() {
+  const [patients, reports, appointments, alerts, activities] = await Promise.all([
+    patientService.getAll(),
+    reportService.getAll(),
+    appointmentService.getAll(),
+    alertService.getAll(),
+    activityService.getAll(),
+  ])
+
+  const patientNames = new Map(patients.map((patient) => [patient.id, patient.name]))
+
+  const statistics = [
+    { label: 'Pacientes activos', value: patients.filter((patient) => patient.status === 'active').length },
+    { label: 'Informes pendientes', value: reports.filter((report) => report.status === 'draft').length },
+    { label: 'Turnos de hoy', value: appointments.filter((appointment) => isToday(appointment.date)).length },
+    { label: 'Alertas', value: alerts.filter((alert) => !alert.resolved).length },
+  ]
+
+  const recentActivities = activities
+    .toSorted((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+    .slice(0, RECENT_ACTIVITY_LIMIT)
+    .map((activity) => ({
+      ...activity,
+      person: patientNames.get(activity.patientId) ?? 'Paciente desconocido',
+      time: formatRelativeTime(activity.createdAt),
+    }))
+
+  return { statistics, recentActivities }
+}
 
 function Dashboard() {
+  const { data, loading, error, reload } = useAsync(loadDashboard)
+
   return (
-    <Container fluid>
-      <Row className="min-vh-100">
-        <Sidebar />
+    <>
+      <DashboardHeader title="Panel Principal" />
 
-        <div className="col-12 col-md-9 col-xl-10 bg-light p-4 p-lg-5">
-          <DashboardHeader
-            title="Panel Principal"
-            userName="Dr. Nombre Apellido"
-          />
-
-          <main id="dashboard-home">
-            <Statistics statistics={statistics} />
-            <RecentActivity activities={recentActivities} />
-            <Patients patients={patients} />
-          </main>
-        </div>
-      </Row>
-    </Container>
+      {loading && <LoadingState message="Cargando el panel…" />}
+      {error && <ErrorState onRetry={reload} />}
+      {data && (
+        <>
+          <Statistics statistics={data.statistics} />
+          <RecentActivity activities={data.recentActivities} />
+        </>
+      )}
+    </>
   )
 }
 
