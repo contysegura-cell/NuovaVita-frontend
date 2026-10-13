@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Alert from 'react-bootstrap/Alert'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
@@ -11,7 +11,7 @@ const MIN_PASSWORD_LENGTH = 6
 
 function LoginForm() {
   const navigate = useNavigate()
-  const rememberedEmail = localStorage.getItem(EMAIL_STORAGE_KEY) ?? ''
+  const [rememberedEmail] = useState(() => localStorage.getItem(EMAIL_STORAGE_KEY) ?? '')
   const [email, setEmail] = useState(rememberedEmail)
   const [password, setPassword] = useState('')
   const [remember, setRemember] = useState(Boolean(rememberedEmail))
@@ -25,6 +25,24 @@ function LoginForm() {
   const emailRef = useRef(null)
   const passwordRef = useRef(null)
   const recoveryEmailRef = useRef(null)
+  
+  useEffect(() => {
+    const field = rememberedEmail ? passwordRef : emailRef
+    field.current?.focus()
+  }, [rememberedEmail])
+
+ 
+  useEffect(() => {
+    if (recoveryOpen) recoveryEmailRef.current?.focus()
+  }, [recoveryOpen])
+
+  
+  useEffect(() => {
+    if (!recoveryStatus) return undefined
+
+    const timerId = setTimeout(() => setRecoveryStatus(null), 6000)
+    return () => clearTimeout(timerId)
+  }, [recoveryStatus])
 
   const emailIsValid = EMAIL_REGEX.test(email.trim())
   const passwordIsValid = password.trim().length >= MIN_PASSWORD_LENGTH
@@ -53,10 +71,7 @@ function LoginForm() {
     setRecoveryOpen(willOpen)
     setRecoveryStatus(null)
 
-    if (willOpen) {
-      if (emailIsValid) setRecoveryEmail(email.trim())
-      setTimeout(() => recoveryEmailRef.current?.focus(), 0)
-    }
+    if (willOpen && emailIsValid) setRecoveryEmail(email.trim())
   }
 
   const handleRecovery = (event) => {

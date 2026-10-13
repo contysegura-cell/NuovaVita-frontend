@@ -1,8 +1,129 @@
+/* ==========================================================================
+   Nuova Vita — Tema sobre Bootstrap 5
+   Paleta del proyecto original: terracota / salvia / crema.
+   Bootstrap sigue manejando grillas y componentes; acá solo se le cambian
+   los colores y las tipografías por los de la identidad de marca.
+   ========================================================================== */
+
+:root {
+  /* Paleta de marca */
+  --nv-primary: #c5714e;       /* terracota */
+  --nv-primary-dark: #a85a3a;
+  --nv-secondary: #8a9a7b;     /* salvia */
+  --nv-secondary-dark: #6f7d63;
+  --nv-bg: #faf6ef;            /* crema */
+  --nv-bg-alt: #f1e9da;        /* crema oscuro */
+  --nv-text: #3a362f;
+  --nv-text-light: #6b665c;
+  --nv-border: #e4dcc8;
+
+  /* Variables de Bootstrap redefinidas con la paleta */
+  --bs-primary: var(--nv-primary);
+  --bs-primary-rgb: 197, 113, 78;
+  --bs-light-rgb: 241, 233, 218;
+  --bs-dark-rgb: 58, 54, 47;
+  --bs-body-color: var(--nv-text);
+  --bs-body-color-rgb: 58, 54, 47;
+  --bs-secondary-color: var(--nv-text-light);
+  --bs-border-color: var(--nv-border);
+  --bs-link-color: var(--nv-primary-dark);
+  --bs-link-color-rgb: 168, 90, 58;
+  --bs-link-hover-color: #8a4a2f;
+  --bs-link-hover-color-rgb: 138, 74, 47;
+
+  /* Tipografías */
+  --bs-body-font-family: 'Nunito Sans', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+body {
+  background-color: var(--nv-bg);
+}
+
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+  font-family: 'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+}
+
+/* ---------- Botones ---------- */
+.btn-primary {
+  --bs-btn-bg: var(--nv-primary);
+  --bs-btn-border-color: var(--nv-primary);
+  --bs-btn-hover-bg: var(--nv-primary-dark);
+  --bs-btn-hover-border-color: var(--nv-primary-dark);
+  --bs-btn-focus-shadow-rgb: 197, 113, 78;
+  --bs-btn-active-bg: var(--nv-primary-dark);
+  --bs-btn-active-border-color: var(--nv-primary-dark);
+  --bs-btn-disabled-bg: var(--nv-primary);
+  --bs-btn-disabled-border-color: var(--nv-primary);
+}
+
+.btn-secondary {
+  --bs-btn-bg: var(--nv-secondary);
+  --bs-btn-border-color: var(--nv-secondary);
+  --bs-btn-hover-bg: var(--nv-secondary-dark);
+  --bs-btn-hover-border-color: var(--nv-secondary-dark);
+  --bs-btn-focus-shadow-rgb: 138, 154, 123;
+  --bs-btn-active-bg: var(--nv-secondary-dark);
+  --bs-btn-active-border-color: var(--nv-secondary-dark);
+  --bs-btn-disabled-bg: var(--nv-secondary);
+  --bs-btn-disabled-border-color: var(--nv-secondary);
+}
+
+.btn-outline-secondary {
+  --bs-btn-color: var(--nv-secondary-dark);
+  --bs-btn-border-color: var(--nv-secondary-dark);
+  --bs-btn-hover-bg: var(--nv-secondary-dark);
+  --bs-btn-hover-border-color: var(--nv-secondary-dark);
+  --bs-btn-focus-shadow-rgb: 111, 125, 99;
+  --bs-btn-active-bg: var(--nv-secondary-dark);
+  --bs-btn-active-border-color: var(--nv-secondary-dark);
+  --bs-btn-disabled-color: var(--nv-secondary-dark);
+  --bs-btn-disabled-border-color: var(--nv-secondary-dark);
+}
+
+.btn-link {
+  --bs-btn-focus-shadow-rgb: 197, 113, 78;
+}
+
+/* ---------- Campos de formulario (halo terracota en vez del azul de Bootstrap) ---------- */
+.form-control:focus,
+.form-select:focus,
+.form-check-input:focus {
+  border-color: var(--nv-primary);
+  box-shadow: 0 0 0 0.25rem rgba(197, 113, 78, 0.25);
+}
+
+.form-check-input:checked {
+  background-color: var(--nv-primary);
+  border-color: var(--nv-primary);
+}
+
+/* ---------- Navegación ---------- */
+.navbar.bg-light {
+  background-color: #fff !important;
+  border-bottom: 1px solid var(--nv-border);
+}
+
+.navbar {
+  --bs-navbar-color: var(--nv-text);
+  --bs-navbar-hover-color: var(--nv-primary);
+  --bs-navbar-active-color: var(--nv-primary);
+}
+
+.nav-pills {
+  --bs-nav-pills-link-active-bg: var(--nv-primary);
+}
+
+.nav-link:focus-visible {
+  box-shadow: 0 0 0 0.25rem rgba(197, 113, 78, 0.25);
+}
+
+/* ---------- Login ---------- */
 .login-page {
-  background-color: #f1e9da;
+  background-color: var(--nv-bg-alt);
 }
 
 .login-brand-panel {
   color: #fff;
-  background-color: #c5714e;
+  background-color: var(--nv-primary);
 }
