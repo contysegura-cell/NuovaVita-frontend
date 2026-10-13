@@ -13,6 +13,8 @@ import {
   reports,
 } from '../../data/dashboardData.js'
 
+import usePageMeta from '../../hooks/usePageMeta.js'
+
 const statistics = [
   {
     label: 'Pacientes activos',
@@ -33,6 +35,12 @@ const statistics = [
 ]
 
 function Dashboard() {
+    usePageMeta({
+    title: 'Panel Principal | Nuova Vita',
+    description:
+      'Panel interno de Nuova Vita: estadísticas, actividad reciente y listado de pacientes.',
+    noindex: true,
+  })
   return (
     <Container fluid>
       <Row className="min-vh-100">
