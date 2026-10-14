@@ -1,17 +1,17 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Alert from 'react-bootstrap/Alert'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import InputGroup from 'react-bootstrap/InputGroup'
 import { useNavigate } from 'react-router-dom'
+import { isValidEmail } from '../../utils/validation.js'
 
 const EMAIL_STORAGE_KEY = 'nuovaVita.rememberedEmail'
-const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-const MIN_PASSWORD_LENGTH = 6
+const MIN_PASSWORD_LENGTH = 8
 
 function LoginForm() {
   const navigate = useNavigate()
-  const rememberedEmail = localStorage.getItem(EMAIL_STORAGE_KEY) ?? ''
+  const [rememberedEmail] = useState(() => localStorage.getItem(EMAIL_STORAGE_KEY) ?? '')
   const [email, setEmail] = useState(rememberedEmail)
   const [password, setPassword] = useState('')
   const [remember, setRemember] = useState(Boolean(rememberedEmail))
@@ -26,9 +26,25 @@ function LoginForm() {
   const passwordRef = useRef(null)
   const recoveryEmailRef = useRef(null)
 
-  const emailIsValid = EMAIL_REGEX.test(email.trim())
+  useEffect(() => {
+    const field = rememberedEmail ? passwordRef : emailRef
+    field.current?.focus()
+  }, [rememberedEmail])
+
+  useEffect(() => {
+    if (recoveryOpen) recoveryEmailRef.current?.focus()
+  }, [recoveryOpen])
+
+  useEffect(() => {
+    if (!recoveryStatus) return undefined
+
+    const timerId = setTimeout(() => setRecoveryStatus(null), 6000)
+    return () => clearTimeout(timerId)
+  }, [recoveryStatus])
+
+  const emailIsValid = isValidEmail(email)
   const passwordIsValid = password.trim().length >= MIN_PASSWORD_LENGTH
-  const recoveryEmailIsValid = EMAIL_REGEX.test(recoveryEmail.trim())
+  const recoveryEmailIsValid = isValidEmail(recoveryEmail)
 
   const handleLogin = (event) => {
     event.preventDefault()
@@ -53,10 +69,7 @@ function LoginForm() {
     setRecoveryOpen(willOpen)
     setRecoveryStatus(null)
 
-    if (willOpen) {
-      if (emailIsValid) setRecoveryEmail(email.trim())
-      setTimeout(() => recoveryEmailRef.current?.focus(), 0)
-    }
+    if (willOpen && emailIsValid) setRecoveryEmail(email.trim())
   }
 
   const handleRecovery = (event) => {
@@ -133,7 +146,7 @@ function LoginForm() {
               {showPassword ? 'Ocultar' : 'Mostrar'}
             </Button>
             <Form.Control.Feedback type="invalid">
-              La contraseña debe tener al menos 6 caracteres.
+              La contraseña debe tener al menos {MIN_PASSWORD_LENGTH} caracteres.
             </Form.Control.Feedback>
           </InputGroup>
         </Form.Group>

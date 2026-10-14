@@ -5,8 +5,15 @@ import Row from 'react-bootstrap/Row'
 import { Link } from 'react-router-dom'
 import logo from '../../assets/images/logo.svg'
 import LoginForm from '../../components/LoginForm/LoginForm.jsx'
+import usePageMeta from '../../hooks/usePageMeta.js'
 
 function Login() {
+  usePageMeta({
+    title: 'Iniciar Sesión | Nuova Vita',
+    description:
+      'Accedé al sistema de gestión de Nuova Vita con tus credenciales para consultar historias clínicas, informes y asistencia.',
+    noindex: true,
+  })
   return (
     <main className="login-page d-flex align-items-center min-vh-100 py-4">
       <Container>
@@ -19,7 +26,7 @@ function Login() {
                     <img src={logo} alt="Logo de Nuova Vita" width="40" height="40" />
                     <span className="fw-semibold fs-5">Nuova Vita</span>
                   </Link>
-                  <h2 className="h3 mb-3">Bienvenido de nuevo</h2>
+                  <p className="h3 mb-3">Bienvenido de nuevo</p>
                   <p className="mb-0">Ingresá con tus credenciales para acceder al sistema de gestión.</p>
                 </Col>
 

@@ -1,16 +1,173 @@
-# React + Vite
+# Nuova Vita — Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Interfaz web de **Nuova Vita**, un sistema de gestión para un centro de cuidado de adultos mayores. Centraliza la historia clínica, los informes de especialistas y el control de asistencia del personal.
 
-Currently, two official plugins are available:
+Este repositorio es la migración a **React + Vite** del proyecto original en HTML, CSS y JavaScript, realizada para la materia Programación IV (Tecnicatura en Programación, UTN).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Funcionalidades
 
-## React Compiler
+### Página de inicio (`/`)
+- Navbar fija y responsive con enlaces a cada sección.
+- Secciones: presentación, qué es Nuova Vita, funcionalidades principales y roles del sistema (tarjetas generadas dinámicamente con `map()`).
+- Formulario de contacto con validación en tiempo real y mensajes de estado.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Inicio de sesión (`/login`)
+- Validación en tiempo real de correo y contraseña (mínimo 8 caracteres).
+- Botón para mostrar u ocultar la contraseña.
+- Opción "Recordarme", que guarda el correo en `localStorage`.
+- Panel de recuperación de acceso.
+- El inicio de sesión es una simulación frontend: todavía no valida las credenciales contra un backend.
 
-## Expanding the ESLint configuration
+### Panel interno (`/dashboard`)
+- Menú lateral que marca la sección activa, con rutas anidadas para cada sección.
+- **Panel principal:** tarjetas de estadísticas, actividad reciente y directorio demostrativo del equipo profesional, cargado desde una API pública.
+- **Pacientes (`/dashboard/pacientes`):** listado con búsqueda por nombre (sin distinguir tildes) y filtro por estado, cargado desde la API simulada.
+- Historia clínica, informes, actividades diarias, asistencia y configuración: secciones marcadas como "próximamente".
+- Estados de carga y de error con opción de reintentar.
+- Botón **Restablecer datos de la demo**, que vuelve a cargar los datos iniciales de la API simulada.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Otras
+- Página **404** para rutas inexistentes.
+- **SEO por página**: título y meta description propios en cada ruta; las páginas internas (`/login`, `/dashboard` y la 404) llevan `noindex`.
+
+## Tecnologías
+
+| Herramienta | Uso |
+|---|---|
+| [React 19](https://react.dev/) | Interfaz basada en componentes |
+| [Vite](https://vite.dev/) | Entorno de desarrollo y build |
+| [React Bootstrap](https://react-bootstrap.netlify.app/) + [Bootstrap 5](https://getbootstrap.com/) | Componentes y sistema de grillas responsive |
+| [React Router](https://reactrouter.com/) | Navegación entre páginas |
+| [Axios](https://axios-http.com/) | Peticiones HTTP a la API pública |
+| [SweetAlert2](https://sweetalert2.github.io/) | Mensajes de error durante el consumo de la API |
+| [ESLint](https://eslint.org/) | Análisis estático del código |
+| [Vitest](https://vitest.dev/) + [Testing Library](https://testing-library.com/) | Tests automatizados |
+
+## Consumo de API pública (TP Nº 8)
+
+El dashboard consume la API pública [Random User](https://randomuser.me/) para construir un directorio demostrativo del equipo profesional de Nuova Vita.
+
+Los nombres, correos y teléfonos recibidos son datos ficticios y se utilizan únicamente con fines académicos. La interfaz usa un avatar genérico para evitar presentar las fotografías generadas por la API como integrantes reales del centro.
+
+La implementación se encuentra en `src/components/Dashboard/ProfessionalTeam.jsx` y utiliza:
+
+- **Axios** para realizar la petición HTTP.
+- **`useState`** para administrar los profesionales, el estado de carga, los errores y los reintentos.
+- **`useEffect`** para ejecutar la petición cuando se monta el componente o se solicita un nuevo intento.
+- **SweetAlert2** para informar al usuario si la petición falla.
+- **`map()`** para generar una tarjeta por cada profesional recibido.
+- **Variables de entorno** para evitar escribir la URL directamente dentro del componente.
+
+Mientras se espera la respuesta se muestra un indicador de carga. Si ocurre un error, se presenta una alerta y un botón para reintentar la consulta.
+
+## API simulada (pacientes y especialistas)
+
+La carga y consulta de pacientes y especialistas se hace a través de una API simulada que guarda los datos en el `localStorage` del navegador. No hay backend.
+
+- Servicios en `src/services/`: `patientService` y `specialistService`.
+- Solo existen operaciones equivalentes a **GET** (`getAll`, `getById`) y **POST** (`create`). No hay edición ni borrado.
+- Las respuestas llegan con una demora de 300 ms, por eso las pantallas muestran estados de carga y error.
+- Los datos iniciales están en `src/data/seed.js`. Se guardan con un número de versión (`DB_VERSION` en `src/services/storage.js`): si cambia la forma de los datos, al subir ese número se reemplazan por los iniciales.
+- Los componentes nunca leen `localStorage` directamente: siempre usan los servicios.
+
+Los demás números del panel (informes, turnos, alertas y actividad reciente) son datos estáticos de ejemplo en `src/data/dashboardData.js`.
+
+## Estructura del proyecto
+
+```
+src/
+├── assets/images/     # Logo e ilustraciones
+├── components/        # Componentes reutilizables, agrupados por sección
+│   ├── Navbar/  Hero/  About/  Services/  Roles/  Contact/  Footer/
+│   ├── LoginForm/
+│   ├── Dashboard/     # Sidebar, StatCard, Statistics, RecentActivity, Patients, ProfessionalTeam…
+│   └── Feedback/      # Estados de carga y error, ErrorBoundary
+├── data/              # homeData.js, dashboardData.js (estáticos) y seed.js (API simulada)
+├── hooks/             # usePageMeta (SEO) y useAsync (estados de carga)
+├── layouts/           # PrivateLayout: menú lateral + contenido de cada sección
+├── pages/             # Una carpeta por página
+├── routes/paths.js    # Todas las URLs de la app
+├── services/          # API simulada de pacientes y especialistas
+├── styles/            # Tema de marca sobre Bootstrap: paleta y tipografías (theme.css)
+├── test/              # Configuración de los tests
+├── utils/             # Funciones puras (fechas, texto, validaciones)
+├── App.jsx            # Definición de rutas
+└── main.jsx           # Punto de entrada
+```
+
+## Rutas
+
+| Ruta | Página |
+|---|---|
+| `/` | Inicio |
+| `/login` | Inicio de sesión |
+| `/dashboard` | Panel principal |
+| `/dashboard/pacientes` | Listado de pacientes |
+| `/dashboard/historia-clinica`, `/informes`, `/actividades`, `/asistencia`, `/configuracion` | Próximamente |
+| `*` | Página no encontrada (404) |
+
+## Instalación y ejecución
+
+**Requisito:** [Node.js](https://nodejs.org/) 20.19 o superior.
+
+```bash
+# 1. Clonar el repositorio
+git clone https://github.com/contysegura-cell/NuovaVita-frontend.git
+cd NuovaVita-frontend
+
+# 2. Instalar las dependencias
+npm install
+
+# 3. Crear el archivo local de variables de entorno
+cp .env.example .env
+
+# 4. Iniciar el servidor de desarrollo
+npm run dev
+```
+
+Abrir en el navegador la dirección que muestra la terminal (por lo general `http://localhost:5173`).
+
+### Scripts disponibles
+
+| Comando | Descripción |
+|---|---|
+| `npm run dev` | Inicia el servidor de desarrollo |
+| `npm run build` | Genera la versión de producción en `dist/` |
+| `npm run preview` | Sirve localmente la versión de producción |
+| `npm run lint` | Revisa el código con ESLint |
+| `npm test` | Ejecuta los tests una vez |
+| `npm run test:watch` | Ejecuta los tests en modo observación |
+
+## Variables de entorno
+
+La URL de la API se configura en un archivo `.env` en la raíz del proyecto. Este archivo **no se sube a GitHub** porque está incluido en `.gitignore`.
+
+Después de clonar el repositorio, copiar `.env.example` como `.env`:
+
+```bash
+cp .env.example .env
+```
+
+En Windows PowerShell también se puede utilizar:
+
+```powershell
+Copy-Item .env.example .env
+```
+
+La variable requerida es:
+
+```
+VITE_API_URL=https://randomuser.me/api/
+```
+
+Vite expone esta variable en React mediante `import.meta.env.VITE_API_URL`. Si se modifica `.env` mientras el servidor está funcionando, es necesario reiniciar `npm run dev`.
+
+## Despliegue
+
+El proyecto se publica en [Vercel](https://vercel.com/). El archivo `vercel.json` redirige todas las rutas a `index.html` para que React Router funcione al recargar la página.
+
+## Flujo de trabajo con Git
+
+- `main`: versión estable.
+- `dev`: integración de los cambios del equipo.
+- `feature/*`: una rama por funcionalidad, que se integra a `dev` mediante Pull Request.

@@ -5,8 +5,8 @@ import Col from 'react-bootstrap/Col'
 import Container from 'react-bootstrap/Container'
 import Form from 'react-bootstrap/Form'
 import Row from 'react-bootstrap/Row'
+import { isValidEmail } from '../../utils/validation.js'
 
-const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const MIN_NAME_LENGTH = 3
 const MIN_MESSAGE_LENGTH = 10
 const MAX_MESSAGE_LENGTH = 300
@@ -26,7 +26,7 @@ function Contact({ title }) {
 
   const validity = {
     name: fields.name.trim().length >= MIN_NAME_LENGTH,
-    email: EMAIL_REGEX.test(fields.email.trim()),
+    email: isValidEmail(fields.email),
     message:
       fields.message.trim().length >= MIN_MESSAGE_LENGTH &&
       fields.message.trim().length <= MAX_MESSAGE_LENGTH,

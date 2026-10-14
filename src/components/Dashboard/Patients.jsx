@@ -3,13 +3,7 @@ import Badge from 'react-bootstrap/Badge'
 import Card from 'react-bootstrap/Card'
 import Form from 'react-bootstrap/Form'
 import Table from 'react-bootstrap/Table'
-
-function normalizeText(text) {
-  return text
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .toLowerCase()
-}
+import { normalizeText } from '../../utils/text.js'
 
 function Patients({ patients }) {
   const [search, setSearch] = useState('')

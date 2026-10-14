@@ -23,3 +23,11 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+.claude/
+CLAUDE.md
+graphify-out
+
+# Variables de entorno (no subir a GitHub)
+.env
+.env.*
+!.env.example

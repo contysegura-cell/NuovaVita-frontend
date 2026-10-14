@@ -1,0 +1,80 @@
+// Datos iniciales de la API simulada: pacientes y especialistas.
+
+export function createSeed() {
+  const patients = [
+    {
+      id: 'pat-001',
+      name: 'Elena García',
+      dni: '12345678',
+      birthDate: '1941-03-14',
+      sex: 'F',
+      healthInsurance: 'PAMI',
+      affiliateNumber: '150123456701',
+      emergencyContact: { name: 'Lucía García', relationship: 'Hija', phone: '11 4567-8901' },
+      allergies: ['Penicilina'],
+      admissionDate: '2023-06-01',
+      status: 'active',
+    },
+    {
+      id: 'pat-002',
+      name: 'Carlos Fernández',
+      dni: '10987654',
+      birthDate: '1938-11-02',
+      sex: 'M',
+      healthInsurance: 'OSDE',
+      affiliateNumber: '61234567',
+      emergencyContact: { name: 'Jorge Fernández', relationship: 'Hijo', phone: '11 5678-9012' },
+      allergies: [],
+      admissionDate: '2022-09-15',
+      status: 'active',
+    },
+    {
+      id: 'pat-003',
+      name: 'Marta López',
+      dni: '13456789',
+      birthDate: '1944-07-21',
+      sex: 'F',
+      healthInsurance: 'PAMI',
+      affiliateNumber: '150987654302',
+      emergencyContact: { name: 'Ana López', relationship: 'Sobrina', phone: '11 6789-0123' },
+      allergies: ['Ibuprofeno'],
+      admissionDate: '2024-02-10',
+      status: 'active',
+    },
+    {
+      id: 'pat-004',
+      name: 'Roberto Díaz',
+      dni: '9876543',
+      birthDate: '1935-01-30',
+      sex: 'M',
+      healthInsurance: 'Swiss Medical',
+      affiliateNumber: '80012345',
+      emergencyContact: { name: 'Silvia Díaz', relationship: 'Esposa', phone: '11 7890-1234' },
+      allergies: [],
+      admissionDate: '2021-04-05',
+      status: 'inactive',
+    },
+    {
+      id: 'pat-005',
+      name: 'Teresa Gómez',
+      dni: '11223344',
+      birthDate: '1940-05-08',
+      sex: 'F',
+      healthInsurance: 'IOMA',
+      affiliateNumber: '4455667788',
+      emergencyContact: { name: 'Raúl Gómez', relationship: 'Hijo', phone: '11 8901-2345' },
+      allergies: ['Sulfas', 'Látex'],
+      admissionDate: '2023-11-20',
+      status: 'active',
+    },
+  ]
+
+  const specialists = [
+    { id: 'spc-001', name: 'Dra. Laura Méndez', specialty: 'Clínica médica', licenseNumber: 'MN 112233', email: 'lmendez@nuovavita.com', phone: '11 4000-1001' },
+    { id: 'spc-002', name: 'Lic. Pablo Ruiz', specialty: 'Kinesiología', licenseNumber: 'MN 223344', email: 'pruiz@nuovavita.com', phone: '11 4000-1002' },
+    { id: 'spc-003', name: 'Lic. Carolina Vega', specialty: 'Nutrición', licenseNumber: 'MN 334455', email: 'cvega@nuovavita.com', phone: '11 4000-1003' },
+    { id: 'spc-004', name: 'Lic. Diego Herrera', specialty: 'Psicología', licenseNumber: 'MN 445566', email: 'dherrera@nuovavita.com', phone: '11 4000-1004' },
+  ]
+
+  return { patients, specialists }
+}
