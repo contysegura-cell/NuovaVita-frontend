@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router-dom'
 import { describe, expect, it } from 'vitest'
 import App from './App.jsx'
@@ -38,5 +39,30 @@ describe('rutas', () => {
     renderAt('/no-existe')
 
     expect(screen.getByRole('heading', { name: 'Página no encontrada' })).toBeInTheDocument()
+  })
+})
+
+describe('login', () => {
+  it('rechaza una clave de menos de 8 caracteres', async () => {
+    const user = userEvent.setup()
+    renderAt(PATHS.login)
+
+    await user.type(screen.getByLabelText('Correo electrónico'), 'medico@nuovavita.com')
+    await user.type(screen.getByLabelText('Contraseña'), '1234567')
+    await user.click(screen.getByRole('button', { name: 'Ingresar' }))
+
+    expect(screen.getByText('La contraseña debe tener al menos 8 caracteres.')).toBeVisible()
+    expect(screen.getByRole('heading', { name: 'Iniciar Sesión' })).toBeInTheDocument()
+  })
+
+  it('ingresa al panel con un correo válido y una clave de 8 caracteres', async () => {
+    const user = userEvent.setup()
+    renderAt(PATHS.login)
+
+    await user.type(screen.getByLabelText('Correo electrónico'), 'medico@nuovavita.com')
+    await user.type(screen.getByLabelText('Contraseña'), '12345678')
+    await user.click(screen.getByRole('button', { name: 'Ingresar' }))
+
+    expect(await screen.findByRole('heading', { level: 1, name: 'Panel Principal' })).toBeInTheDocument()
   })
 })

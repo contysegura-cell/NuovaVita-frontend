@@ -1,4 +1,3 @@
-// TODO(Módulo 1): tomar el nombre del usuario logueado desde la sesión.
 function DashboardHeader({ title, userName = 'Dr. Nombre Apellido' }) {
   return (
     <header className="d-flex flex-wrap gap-3 justify-content-between align-items-center mb-5">

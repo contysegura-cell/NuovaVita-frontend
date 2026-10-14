@@ -43,7 +43,7 @@ function Sidebar() {
         <span className="fw-semibold fs-5">Nuova Vita</span>
       </Link>
 
-      <Nav variant="pills" className="sidebar-nav flex-column gap-1" aria-label="Menú del panel">
+      <Nav as="nav" variant="pills" className="sidebar-nav flex-column gap-1" aria-label="Menú del panel">
         {menuItems.map((item) => (
           <Nav.Link key={item.to} as={NavLink} to={item.to} end={item.end}>
             {item.label}

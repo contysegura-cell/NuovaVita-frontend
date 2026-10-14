@@ -1,13 +1,13 @@
-// Base de datos simulada sobre localStorage. Toda la app accede a los datos
-// a través de los servicios, nunca directamente a este módulo, para poder
-// reemplazarlo por una API real sin tocar los componentes.
+// Datos de la API simulada (pacientes y especialistas) guardados en
+// localStorage. Los componentes acceden a través de los servicios, nunca
+// directamente a este módulo.
 import { createSeed } from '../data/seed.js'
 
 export const STORAGE_KEY = 'nuovaVita.db'
 
 // Subir este número cuando cambie la forma de los datos: los datos guardados
 // con otra versión se descartan y se vuelve a cargar la semilla.
-export const DB_VERSION = 1
+export const DB_VERSION = 2
 
 let memoryDb = null
 
