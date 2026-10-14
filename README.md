@@ -12,18 +12,19 @@ Este repositorio es la migración a **React + Vite** del proyecto original en HT
 - Formulario de contacto con validación en tiempo real y mensajes de estado.
 
 ### Inicio de sesión (`/login`)
-- Validación en tiempo real de correo y contraseña (mínimo 6 caracteres).
+- Validación en tiempo real de correo y contraseña (mínimo 8 caracteres).
 - Botón para mostrar u ocultar la contraseña.
 - Opción "Recordarme", que guarda el correo en `localStorage`.
 - Panel de recuperación de acceso.
 - El inicio de sesión es una simulación frontend: todavía no valida las credenciales contra un backend.
 
 ### Panel interno (`/dashboard`)
-- Tarjetas de estadísticas calculadas a partir de los datos.
-- Actividad reciente.
-- Listado de pacientes con búsqueda por nombre (sin distinguir tildes) y filtro por estado.
-- Directorio demostrativo del equipo profesional, cargado desde una API pública.
-- Menú lateral de navegación.
+- Menú lateral que marca la sección activa, con rutas anidadas para cada sección.
+- **Panel principal:** tarjetas de estadísticas, actividad reciente y directorio demostrativo del equipo profesional, cargado desde una API pública.
+- **Pacientes (`/dashboard/pacientes`):** listado con búsqueda por nombre (sin distinguir tildes) y filtro por estado, cargado desde la API simulada.
+- Historia clínica, informes, actividades diarias, asistencia y configuración: secciones marcadas como "próximamente".
+- Estados de carga y de error con opción de reintentar.
+- Botón **Restablecer datos de la demo**, que vuelve a cargar los datos iniciales de la API simulada.
 
 ### Otras
 - Página **404** para rutas inexistentes.
@@ -40,6 +41,7 @@ Este repositorio es la migración a **React + Vite** del proyecto original en HT
 | [Axios](https://axios-http.com/) | Peticiones HTTP a la API pública |
 | [SweetAlert2](https://sweetalert2.github.io/) | Mensajes de error durante el consumo de la API |
 | [ESLint](https://eslint.org/) | Análisis estático del código |
+| [Vitest](https://vitest.dev/) + [Testing Library](https://testing-library.com/) | Tests automatizados |
 
 ## Consumo de API pública (TP Nº 8)
 
@@ -58,6 +60,18 @@ La implementación se encuentra en `src/components/Dashboard/ProfessionalTeam.js
 
 Mientras se espera la respuesta se muestra un indicador de carga. Si ocurre un error, se presenta una alerta y un botón para reintentar la consulta.
 
+## API simulada (pacientes y especialistas)
+
+La carga y consulta de pacientes y especialistas se hace a través de una API simulada que guarda los datos en el `localStorage` del navegador. No hay backend.
+
+- Servicios en `src/services/`: `patientService` y `specialistService`.
+- Solo existen operaciones equivalentes a **GET** (`getAll`, `getById`) y **POST** (`create`). No hay edición ni borrado.
+- Las respuestas llegan con una demora de 300 ms, por eso las pantallas muestran estados de carga y error.
+- Los datos iniciales están en `src/data/seed.js`. Se guardan con un número de versión (`DB_VERSION` en `src/services/storage.js`): si cambia la forma de los datos, al subir ese número se reemplazan por los iniciales.
+- Los componentes nunca leen `localStorage` directamente: siempre usan los servicios.
+
+Los demás números del panel (informes, turnos, alertas y actividad reciente) son datos estáticos de ejemplo en `src/data/dashboardData.js`.
+
 ## Estructura del proyecto
 
 ```
@@ -66,11 +80,17 @@ src/
 ├── components/        # Componentes reutilizables, agrupados por sección
 │   ├── Navbar/  Hero/  About/  Services/  Roles/  Contact/  Footer/
 │   ├── LoginForm/
-│   └── Dashboard/     # Sidebar, StatCard, Statistics, RecentActivity, Patients, DashboardHeader
-├── data/              # Datos que se recorren con map() (homeData.js, dashboardData.js)
-├── hooks/             # Hooks propios (usePageMeta: título y metadatos SEO)
-├── pages/             # Una carpeta por página: Home, Login, Dashboard, NotFound
+│   ├── Dashboard/     # Sidebar, StatCard, Statistics, RecentActivity, Patients, ProfessionalTeam…
+│   └── Feedback/      # Estados de carga y error, ErrorBoundary
+├── data/              # homeData.js, dashboardData.js (estáticos) y seed.js (API simulada)
+├── hooks/             # usePageMeta (SEO) y useAsync (estados de carga)
+├── layouts/           # PrivateLayout: menú lateral + contenido de cada sección
+├── pages/             # Una carpeta por página
+├── routes/paths.js    # Todas las URLs de la app
+├── services/          # API simulada de pacientes y especialistas
 ├── styles/            # Tema de marca sobre Bootstrap: paleta y tipografías (theme.css)
+├── test/              # Configuración de los tests
+├── utils/             # Funciones puras (fechas, texto, validaciones)
 ├── App.jsx            # Definición de rutas
 └── main.jsx           # Punto de entrada
 ```
@@ -82,6 +102,8 @@ src/
 | `/` | Inicio |
 | `/login` | Inicio de sesión |
 | `/dashboard` | Panel principal |
+| `/dashboard/pacientes` | Listado de pacientes |
+| `/dashboard/historia-clinica`, `/informes`, `/actividades`, `/asistencia`, `/configuracion` | Próximamente |
 | `*` | Página no encontrada (404) |
 
 ## Instalación y ejecución
@@ -113,6 +135,8 @@ Abrir en el navegador la dirección que muestra la terminal (por lo general `htt
 | `npm run build` | Genera la versión de producción en `dist/` |
 | `npm run preview` | Sirve localmente la versión de producción |
 | `npm run lint` | Revisa el código con ESLint |
+| `npm test` | Ejecuta los tests una vez |
+| `npm run test:watch` | Ejecuta los tests en modo observación |
 
 ## Variables de entorno
 

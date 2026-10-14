@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom'
 import { isValidEmail } from '../../utils/validation.js'
 
 const EMAIL_STORAGE_KEY = 'nuovaVita.rememberedEmail'
-const MIN_PASSWORD_LENGTH = 6
+const MIN_PASSWORD_LENGTH = 8
 
 function LoginForm() {
   const navigate = useNavigate()
@@ -146,7 +146,7 @@ function LoginForm() {
               {showPassword ? 'Ocultar' : 'Mostrar'}
             </Button>
             <Form.Control.Feedback type="invalid">
-              La contraseña debe tener al menos 6 caracteres.
+              La contraseña debe tener al menos {MIN_PASSWORD_LENGTH} caracteres.
             </Form.Control.Feedback>
           </InputGroup>
         </Form.Group>

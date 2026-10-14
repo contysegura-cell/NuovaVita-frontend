@@ -1,66 +1,52 @@
-import Container from 'react-bootstrap/Container'
-import Row from 'react-bootstrap/Row'
 import DashboardHeader from '../../components/Dashboard/DashboardHeader.jsx'
-import Patients from '../../components/Dashboard/Patients.jsx'
 import ProfessionalTeam from '../../components/Dashboard/ProfessionalTeam.jsx'
 import RecentActivity from '../../components/Dashboard/RecentActivity.jsx'
-import Sidebar from '../../components/Dashboard/Sidebar.jsx'
 import Statistics from '../../components/Dashboard/Statistics.jsx'
+import ErrorState from '../../components/Feedback/ErrorState.jsx'
+import LoadingState from '../../components/Feedback/LoadingState.jsx'
+import { activities, alerts, appointments, reports } from '../../data/dashboardData.js'
+import { useAsync } from '../../hooks/useAsync.js'
 import usePageMeta from '../../hooks/usePageMeta.js'
-import {
-  alerts,
-  appointments,
-  patients,
-  recentActivities,
-  reports,
-} from '../../data/dashboardData.js'
+import { patientService } from '../../services/index.js'
+import { formatRelativeTime, isToday } from '../../utils/date.js'
 
-const statistics = [
-  {
-    label: 'Pacientes activos',
-    value: patients.filter((patient) => patient.status === 'active').length,
-  },
-  {
-    label: 'Informes pendientes',
-    value: reports.filter((report) => report.status === 'pending').length,
-  },
-  {
-    label: 'Turnos de hoy',
-    value: appointments.filter((appointment) => appointment.date === 'today').length,
-  },
-  {
-    label: 'Alertas',
-    value: alerts.filter((alert) => !alert.resolved).length,
-  },
-]
+const RECENT_ACTIVITY_LIMIT = 5
+
+const recentActivities = activities
+  .toSorted((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+  .slice(0, RECENT_ACTIVITY_LIMIT)
+  .map((activity) => ({ ...activity, time: formatRelativeTime(activity.createdAt) }))
+
+function buildStatistics(patients) {
+  return [
+    { label: 'Pacientes activos', value: patients.filter((patient) => patient.status === 'active').length },
+    { label: 'Informes pendientes', value: reports.filter((report) => report.status === 'draft').length },
+    { label: 'Turnos de hoy', value: appointments.filter((appointment) => isToday(appointment.date)).length },
+    { label: 'Alertas', value: alerts.filter((alert) => !alert.resolved).length },
+  ]
+}
 
 function Dashboard() {
   usePageMeta({
     title: 'Panel Principal | Nuova Vita',
     description:
-      'Panel interno de Nuova Vita: estadísticas, actividad reciente y listado de pacientes.',
+      'Panel interno de Nuova Vita: estadísticas, actividad reciente y equipo profesional.',
     noindex: true,
   })
+
+  const { data: patients, loading, error, reload } = useAsync(patientService.getAll)
+
   return (
-    <Container fluid>
-      <Row className="min-vh-100">
-        <Sidebar />
+    <>
+      <DashboardHeader title="Panel Principal" />
 
-        <div className="col-12 col-md-9 col-xl-10 bg-light p-4 p-lg-5">
-          <DashboardHeader
-            title="Panel Principal"
-            userName="Dr. Nombre Apellido"
-          />
+      {loading && <LoadingState message="Cargando el panel…" />}
+      {error && <ErrorState onRetry={reload} />}
+      {patients && <Statistics statistics={buildStatistics(patients)} />}
 
-          <main id="dashboard-home">
-            <Statistics statistics={statistics} />
-            <RecentActivity activities={recentActivities} />
-            <Patients patients={patients} />
-            <ProfessionalTeam />
-          </main>
-        </div>
-      </Row>
-    </Container>
+      <RecentActivity activities={recentActivities} />
+      <ProfessionalTeam />
+    </>
   )
 }
 
