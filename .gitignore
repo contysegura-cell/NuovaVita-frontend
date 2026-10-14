@@ -26,3 +26,8 @@ dist-ssr
 .claude/
 CLAUDE.md
 graphify-out
+
+# Variables de entorno (no subir a GitHub)
+.env
+.env.*
+!.env.example

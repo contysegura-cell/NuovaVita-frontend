@@ -8,5 +8,6 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: './src/test/setup.js',
     css: false,
+    env: { VITE_API_URL: 'https://randomuser.me/api/' },
   },
 })

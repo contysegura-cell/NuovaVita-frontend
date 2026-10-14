@@ -1,6 +1,7 @@
 import Button from 'react-bootstrap/Button'
 import Nav from 'react-bootstrap/Nav'
 import { Link, NavLink } from 'react-router-dom'
+import Swal from 'sweetalert2'
 import logo from '../../assets/images/logo.svg'
 import { PATHS } from '../../routes/paths.js'
 import { resetDb } from '../../services/index.js'
@@ -16,8 +17,6 @@ const menuItems = [
 ]
 
 async function handleResetDemo() {
-  // Import diferido: sweetalert2 solo se descarga cuando se usa.
-  const { default: Swal } = await import('sweetalert2')
   const { isConfirmed } = await Swal.fire({
     title: '¿Restablecer los datos de la demo?',
     text: 'Se perderán todos los cambios cargados en este navegador.',

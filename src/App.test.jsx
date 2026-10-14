@@ -20,6 +20,8 @@ describe('rutas', () => {
     expect(await screen.findByText('Pacientes activos')).toBeInTheDocument()
     expect(screen.getByRole('heading', { level: 1, name: 'Panel Principal' })).toBeInTheDocument()
     expect(screen.getByText(/Elena García/)).toBeInTheDocument()
+    expect(await screen.findByText('Ana Pérez')).toBeInTheDocument()
+    expect(document.title).toBe('Panel Principal | Nuova Vita')
   })
 
   it('muestra el listado de pacientes en su propia ruta', async () => {
