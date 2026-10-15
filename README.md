@@ -21,7 +21,9 @@ Este repositorio es la migración a **React + Vite** del proyecto original en HT
 ### Panel interno (`/dashboard`)
 - Menú lateral que marca la sección activa, con rutas anidadas para cada sección.
 - **Panel principal:** tarjetas de estadísticas, actividad reciente y directorio demostrativo del equipo profesional, cargado desde una API pública.
-- **Pacientes (`/dashboard/pacientes`):** listado con búsqueda por nombre (sin distinguir tildes) y filtro por estado, cargado desde la API simulada.
+- **Pacientes (`/dashboard/pacientes`):** listado con DNI, edad y obra social, búsqueda por nombre (sin distinguir tildes) o DNI y filtro por estado, cargado desde la API simulada.
+- **Nuevo paciente (`/dashboard/pacientes/nuevo`):** formulario de alta con validaciones (campos obligatorios, DNI de 7 u 8 números sin duplicados, fechas no futuras y coherentes, teléfono de contacto).
+- **Ficha del paciente (`/dashboard/pacientes/:id`):** datos personales, edad, cobertura médica, contacto de emergencia y alergias.
 - Historia clínica, informes, actividades diarias, asistencia y configuración: secciones marcadas como "próximamente".
 - Estados de carga y de error con opción de reintentar.
 - Botón **Restablecer datos de la demo**, que vuelve a cargar los datos iniciales de la API simulada.
@@ -103,6 +105,8 @@ src/
 | `/login` | Inicio de sesión |
 | `/dashboard` | Panel principal |
 | `/dashboard/pacientes` | Listado de pacientes |
+| `/dashboard/pacientes/nuevo` | Alta de paciente |
+| `/dashboard/pacientes/:id` | Ficha del paciente |
 | `/dashboard/historia-clinica`, `/informes`, `/actividades`, `/asistencia`, `/configuracion` | Próximamente |
 | `*` | Página no encontrada (404) |
 

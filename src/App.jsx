@@ -6,6 +6,8 @@ import Dashboard from './pages/Dashboard/Dashboard.jsx'
 import Home from './pages/Home/Home.jsx'
 import Login from './pages/Login/Login.jsx'
 import NotFound from './pages/NotFound/NotFound.jsx'
+import NewPatientPage from './pages/Patients/NewPatientPage.jsx'
+import PatientDetailPage from './pages/Patients/PatientDetailPage.jsx'
 import PatientsPage from './pages/Patients/PatientsPage.jsx'
 import { PATHS } from './routes/paths.js'
 
@@ -19,6 +21,8 @@ function App() {
         <Route path={PATHS.dashboard} element={<PrivateLayout />}>
           <Route index element={<Dashboard />} />
           <Route path={PATHS.patients} element={<PatientsPage />} />
+          <Route path={PATHS.newPatient} element={<NewPatientPage />} />
+          <Route path={PATHS.patientDetail} element={<PatientDetailPage />} />
           <Route path={PATHS.clinicalHistory} element={<ComingSoon title="Historia Clínica" />} />
           <Route path={PATHS.reports} element={<ComingSoon title="Informes de Especialistas" />} />
           <Route path={PATHS.activities} element={<ComingSoon title="Actividades Diarias" />} />
