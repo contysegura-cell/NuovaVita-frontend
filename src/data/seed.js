@@ -1,4 +1,4 @@
-// Datos iniciales de la API simulada: pacientes y especialistas.
+// Datos iniciales de la API simulada: pacientes, especialistas e informes.
 
 export function createSeed() {
   const patients = [
@@ -76,5 +76,44 @@ export function createSeed() {
     { id: 'spc-004', name: 'Lic. Diego Herrera', specialty: 'Psicología', licenseNumber: 'MN 445566', email: 'dherrera@nuovavita.com', phone: '11 4000-1004' },
   ]
 
-  return { patients, specialists }
+  const reports = [
+    {
+      id: 'rep-001',
+      patientId: 'pat-001',
+      specialistId: 'spc-002',
+      date: '2026-09-22',
+      reason: 'Control de movilidad posterior a caída leve.',
+      evaluation: 'Marcha lenta con base de sustentación amplia. Fuerza conservada en miembros inferiores. Sin dolor a la movilización.',
+      diagnosis: 'Inestabilidad de la marcha.',
+      indications: 'Ejercicios de equilibrio 3 veces por semana. Uso de andador en traslados largos.',
+      nextControl: '2026-10-20',
+      createdAt: '2026-09-22T14:30:00.000Z',
+    },
+    {
+      id: 'rep-002',
+      patientId: 'pat-003',
+      specialistId: 'spc-003',
+      date: '2026-09-30',
+      reason: 'Evaluación nutricional de ingreso al plan trimestral.',
+      evaluation: 'Peso estable respecto del control anterior. Ingesta adecuada en almuerzo, disminuida en cena.',
+      diagnosis: 'Estado nutricional conservado.',
+      indications: 'Reforzar colación nocturna. Hidratación mínima de 1,5 litros diarios.',
+      nextControl: '',
+      createdAt: '2026-09-30T11:00:00.000Z',
+    },
+    {
+      id: 'rep-003',
+      patientId: 'pat-001',
+      specialistId: 'spc-001',
+      date: '2026-10-06',
+      reason: 'Control clínico mensual.',
+      evaluation: 'Tensión arterial 130/80. Sin edemas. Buen estado general.',
+      diagnosis: 'Hipertensión arterial controlada.',
+      indications: 'Continuar con la medicación habitual.',
+      nextControl: '2026-11-06',
+      createdAt: '2026-10-06T10:15:00.000Z',
+    },
+  ]
+
+  return { patients, specialists, reports }
 }

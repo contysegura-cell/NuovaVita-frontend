@@ -27,7 +27,10 @@ Este repositorio es la migración a **React + Vite** del proyecto original en HT
 - **Especialistas (`/dashboard/especialistas`):** listado con búsqueda por nombre o matrícula y filtro por especialidad, cargado desde la API simulada.
 - **Nuevo especialista (`/dashboard/especialistas/nuevo`):** formulario de alta con validaciones (matrícula MN/MP sin duplicados, correo sin duplicados, teléfono).
 - **Ficha del especialista (`/dashboard/especialistas/:id`):** especialidad, matrícula y datos de contacto.
-- Historia clínica, informes, actividades diarias, asistencia y configuración: secciones marcadas como "próximamente".
+- **Informes de especialistas (`/dashboard/informes`):** listado del más reciente al más antiguo, con búsqueda por paciente, especialista o motivo y filtro por especialidad.
+- **Nuevo informe (`/dashboard/informes/nuevo`):** paciente, especialista, fecha, motivo, evaluación, diagnóstico, indicaciones y próximo control. Desde la ficha de un paciente, el formulario abre con ese paciente elegido. Un informe guardado no se puede modificar.
+- **Detalle del informe (`/dashboard/informes/:id`)** y sección de informes dentro de la ficha de cada paciente.
+- Historia clínica, actividades diarias, asistencia y configuración: secciones marcadas como "próximamente".
 - Estados de carga y de error con opción de reintentar.
 - Botón **Restablecer datos de la demo**, que vuelve a cargar los datos iniciales de la API simulada.
 
@@ -65,11 +68,11 @@ La implementación se encuentra en `src/components/Dashboard/ProfessionalTeam.js
 
 Mientras se espera la respuesta se muestra un indicador de carga. Si ocurre un error, se presenta una alerta y un botón para reintentar la consulta.
 
-## API simulada (pacientes y especialistas)
+## API simulada (pacientes, especialistas e informes)
 
-La carga y consulta de pacientes y especialistas se hace a través de una API simulada que guarda los datos en el `localStorage` del navegador. No hay backend.
+La carga y consulta de pacientes, especialistas e informes de especialistas se hace a través de una API simulada que guarda los datos en el `localStorage` del navegador. No hay backend.
 
-- Servicios en `src/services/`: `patientService` y `specialistService`.
+- Servicios en `src/services/`: `patientService`, `specialistService` y `reportService`. `reportQueries.js` combina varios GET para mostrar cada informe con el nombre de su paciente y su especialista.
 - Solo existen operaciones equivalentes a **GET** (`getAll`, `getById`) y **POST** (`create`). No hay edición ni borrado.
 - Las respuestas llegan con una demora de 300 ms, por eso las pantallas muestran estados de carga y error.
 - Los datos iniciales están en `src/data/seed.js`. Se guardan con un número de versión (`DB_VERSION` en `src/services/storage.js`): si cambia la forma de los datos, al subir ese número se reemplazan por los iniciales.
@@ -113,7 +116,10 @@ src/
 | `/dashboard/especialistas` | Listado de especialistas |
 | `/dashboard/especialistas/nuevo` | Alta de especialista |
 | `/dashboard/especialistas/:id` | Ficha del especialista |
-| `/dashboard/historia-clinica`, `/informes`, `/actividades`, `/asistencia`, `/configuracion` | Próximamente |
+| `/dashboard/informes` | Listado de informes |
+| `/dashboard/informes/nuevo` | Carga de informe (`?paciente=id` lo preselecciona) |
+| `/dashboard/informes/:id` | Detalle del informe |
+| `/dashboard/historia-clinica`, `/actividades`, `/asistencia`, `/configuracion` | Próximamente |
 | `*` | Página no encontrada (404) |
 
 ## Instalación y ejecución

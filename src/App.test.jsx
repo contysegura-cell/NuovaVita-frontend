@@ -32,7 +32,7 @@ describe('rutas', () => {
   })
 
   it('muestra un marcador en las secciones no implementadas', () => {
-    renderAt(PATHS.reports)
+    renderAt(PATHS.clinicalHistory)
 
     expect(screen.getByText(/disponible próximamente/)).toBeInTheDocument()
   })
