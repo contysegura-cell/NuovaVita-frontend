@@ -9,6 +9,7 @@ import { resetDb } from '../../services/index.js'
 const menuItems = [
   { label: 'Inicio', to: PATHS.dashboard, end: true },
   { label: 'Pacientes', to: PATHS.patients },
+  { label: 'Especialistas', to: PATHS.specialists },
   { label: 'Historia Clínica', to: PATHS.clinicalHistory },
   { label: 'Informes de Especialistas', to: PATHS.reports },
   { label: 'Actividades Diarias', to: PATHS.activities },
@@ -24,7 +25,6 @@ async function handleResetDemo() {
     showCancelButton: true,
     confirmButtonText: 'Restablecer',
     cancelButtonText: 'Cancelar',
-    confirmButtonColor: '#c5714e',
   })
 
   if (!isConfirmed) return

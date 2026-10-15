@@ -31,12 +31,26 @@
   --bs-link-hover-color: #8a4a2f;
   --bs-link-hover-color-rgb: 138, 74, 47;
 
+  /* Variantes "subtle" y foco: Bootstrap las trae en azul aunque se cambie --bs-primary */
+  --bs-primary-text-emphasis: #6e3a24;
+  --bs-primary-bg-subtle: #f6e3da;
+  --bs-primary-border-subtle: #e8b9a4;
+  --bs-focus-ring-color: rgba(197, 113, 78, 0.25);
+
+  /* Controles nativos del navegador (calendario, checkbox) */
+  accent-color: var(--nv-primary);
+
   /* Tipografías */
   --bs-body-font-family: 'Nunito Sans', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 }
 
 body {
   background-color: var(--nv-bg);
+}
+
+::selection {
+  background-color: var(--bs-primary-bg-subtle);
+  color: var(--nv-text);
 }
 
 h1, h2, h3, h4, h5, h6,
@@ -54,6 +68,20 @@ h1, h2, h3, h4, h5, h6,
   --bs-btn-active-bg: var(--nv-primary-dark);
   --bs-btn-active-border-color: var(--nv-primary-dark);
   --bs-btn-disabled-bg: var(--nv-primary);
+  --bs-btn-disabled-border-color: var(--nv-primary);
+}
+
+.btn-outline-primary {
+  --bs-btn-color: var(--nv-primary-dark);
+  --bs-btn-border-color: var(--nv-primary);
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: var(--nv-primary);
+  --bs-btn-hover-border-color: var(--nv-primary);
+  --bs-btn-focus-shadow-rgb: 197, 113, 78;
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: var(--nv-primary-dark);
+  --bs-btn-active-border-color: var(--nv-primary-dark);
+  --bs-btn-disabled-color: var(--nv-primary);
   --bs-btn-disabled-border-color: var(--nv-primary);
 }
 
@@ -130,4 +158,23 @@ h1, h2, h3, h4, h5, h6,
 
 .sidebar-nav .nav-link:not(.active) {
   color: var(--bs-light);
+}
+
+/* ---------- SweetAlert2 ----------
+   Sus variables se definen en :root dentro del CSS que la librería inyecta
+   después del nuestro; redefinirlas en el contenedor les gana por herencia. */
+.swal2-container {
+  --swal2-confirm-button-background-color: var(--nv-primary);
+  --swal2-outline: 0 0 0 3px rgba(197, 113, 78, 0.5);
+}
+
+/* ---------- Listados ---------- */
+@media (min-width: 576px) {
+  .search-field {
+    min-width: 13rem;
+  }
+
+  .filter-field {
+    min-width: 15rem;
+  }
 }

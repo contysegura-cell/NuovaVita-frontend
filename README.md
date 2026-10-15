@@ -24,6 +24,9 @@ Este repositorio es la migración a **React + Vite** del proyecto original en HT
 - **Pacientes (`/dashboard/pacientes`):** listado con DNI, edad y obra social, búsqueda por nombre (sin distinguir tildes) o DNI y filtro por estado, cargado desde la API simulada.
 - **Nuevo paciente (`/dashboard/pacientes/nuevo`):** formulario de alta con validaciones (campos obligatorios, DNI de 7 u 8 números sin duplicados, fechas no futuras y coherentes, teléfono de contacto).
 - **Ficha del paciente (`/dashboard/pacientes/:id`):** datos personales, edad, cobertura médica, contacto de emergencia y alergias.
+- **Especialistas (`/dashboard/especialistas`):** listado con búsqueda por nombre o matrícula y filtro por especialidad, cargado desde la API simulada.
+- **Nuevo especialista (`/dashboard/especialistas/nuevo`):** formulario de alta con validaciones (matrícula MN/MP sin duplicados, correo sin duplicados, teléfono).
+- **Ficha del especialista (`/dashboard/especialistas/:id`):** especialidad, matrícula y datos de contacto.
 - Historia clínica, informes, actividades diarias, asistencia y configuración: secciones marcadas como "próximamente".
 - Estados de carga y de error con opción de reintentar.
 - Botón **Restablecer datos de la demo**, que vuelve a cargar los datos iniciales de la API simulada.
@@ -107,6 +110,9 @@ src/
 | `/dashboard/pacientes` | Listado de pacientes |
 | `/dashboard/pacientes/nuevo` | Alta de paciente |
 | `/dashboard/pacientes/:id` | Ficha del paciente |
+| `/dashboard/especialistas` | Listado de especialistas |
+| `/dashboard/especialistas/nuevo` | Alta de especialista |
+| `/dashboard/especialistas/:id` | Ficha del especialista |
 | `/dashboard/historia-clinica`, `/informes`, `/actividades`, `/asistencia`, `/configuracion` | Próximamente |
 | `*` | Página no encontrada (404) |
 

@@ -2,10 +2,9 @@ import { useCallback } from 'react'
 import Badge from 'react-bootstrap/Badge'
 import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
-import Col from 'react-bootstrap/Col'
-import Row from 'react-bootstrap/Row'
 import { Link, useParams } from 'react-router-dom'
 import DashboardHeader from '../../components/Dashboard/DashboardHeader.jsx'
+import { DetailCard, DetailItem } from '../../components/Details/DetailCard.jsx'
 import ErrorState from '../../components/Feedback/ErrorState.jsx'
 import LoadingState from '../../components/Feedback/LoadingState.jsx'
 import { useAsync } from '../../hooks/useAsync.js'
@@ -15,26 +14,6 @@ import { NotFoundError, patientService } from '../../services/index.js'
 import { calculateAge, formatDate } from '../../utils/date.js'
 
 const SEX_LABELS = { F: 'Femenino', M: 'Masculino', X: 'Otro / No informa' }
-
-function DetailItem({ label, children }) {
-  return (
-    <Col sm={6} lg={4}>
-      <dt className="small text-body-secondary fw-normal">{label}</dt>
-      <dd className="mb-0">{children}</dd>
-    </Col>
-  )
-}
-
-function DetailCard({ title, children }) {
-  return (
-    <Card className="border-0 shadow-sm mb-4">
-      <Card.Body>
-        <Card.Title as="h2" className="h5 mb-3">{title}</Card.Title>
-        <Row as="dl" className="g-3 mb-0">{children}</Row>
-      </Card.Body>
-    </Card>
-  )
-}
 
 function PatientDetail({ patient }) {
   const isActive = patient.status === 'active'

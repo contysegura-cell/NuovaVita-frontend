@@ -20,7 +20,6 @@ function NewPatientPage() {
       title: 'Paciente registrado',
       text: `${patient.name} se dio de alta correctamente.`,
       confirmButtonText: 'Ver ficha',
-      confirmButtonColor: '#c5714e',
     })
     navigate(patientDetailPath(patient.id))
   }
