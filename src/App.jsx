@@ -9,6 +9,9 @@ import NotFound from './pages/NotFound/NotFound.jsx'
 import NewPatientPage from './pages/Patients/NewPatientPage.jsx'
 import PatientDetailPage from './pages/Patients/PatientDetailPage.jsx'
 import PatientsPage from './pages/Patients/PatientsPage.jsx'
+import NewReportPage from './pages/Reports/NewReportPage.jsx'
+import ReportDetailPage from './pages/Reports/ReportDetailPage.jsx'
+import ReportsPage from './pages/Reports/ReportsPage.jsx'
 import NewSpecialistPage from './pages/Specialists/NewSpecialistPage.jsx'
 import SpecialistDetailPage from './pages/Specialists/SpecialistDetailPage.jsx'
 import SpecialistsPage from './pages/Specialists/SpecialistsPage.jsx'
@@ -30,7 +33,9 @@ function App() {
           <Route path={PATHS.newSpecialist} element={<NewSpecialistPage />} />
           <Route path={PATHS.specialistDetail} element={<SpecialistDetailPage />} />
           <Route path={PATHS.clinicalHistory} element={<ComingSoon title="Historia Clínica" />} />
-          <Route path={PATHS.reports} element={<ComingSoon title="Informes de Especialistas" />} />
+          <Route path={PATHS.reports} element={<ReportsPage />} />
+          <Route path={PATHS.newReport} element={<NewReportPage />} />
+          <Route path={PATHS.reportDetail} element={<ReportDetailPage />} />
           <Route path={PATHS.activities} element={<ComingSoon title="Actividades Diarias" />} />
           <Route path={PATHS.attendance} element={<ComingSoon title="Control de Asistencia" />} />
           <Route path={PATHS.settings} element={<ComingSoon title="Configuración" />} />

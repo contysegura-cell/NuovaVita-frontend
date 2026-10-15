@@ -11,6 +11,8 @@ export const PATHS = {
   specialistDetail: '/dashboard/especialistas/:id',
   clinicalHistory: '/dashboard/historia-clinica',
   reports: '/dashboard/informes',
+  newReport: '/dashboard/informes/nuevo',
+  reportDetail: '/dashboard/informes/:id',
   activities: '/dashboard/actividades',
   attendance: '/dashboard/asistencia',
   settings: '/dashboard/configuracion',
@@ -22,4 +24,13 @@ export function patientDetailPath(id) {
 
 export function specialistDetailPath(id) {
   return PATHS.specialistDetail.replace(':id', encodeURIComponent(id))
+}
+
+export function reportDetailPath(id) {
+  return PATHS.reportDetail.replace(':id', encodeURIComponent(id))
+}
+
+// Con `patientId`, el formulario abre con ese paciente ya seleccionado.
+export function newReportPath(patientId) {
+  return patientId ? `${PATHS.newReport}?paciente=${encodeURIComponent(patientId)}` : PATHS.newReport
 }

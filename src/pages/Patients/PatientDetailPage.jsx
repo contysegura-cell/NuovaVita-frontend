@@ -7,10 +7,12 @@ import DashboardHeader from '../../components/Dashboard/DashboardHeader.jsx'
 import { DetailCard, DetailItem } from '../../components/Details/DetailCard.jsx'
 import ErrorState from '../../components/Feedback/ErrorState.jsx'
 import LoadingState from '../../components/Feedback/LoadingState.jsx'
+import ReportTable from '../../components/Reports/ReportTable.jsx'
 import { useAsync } from '../../hooks/useAsync.js'
 import usePageMeta from '../../hooks/usePageMeta.js'
-import { PATHS } from '../../routes/paths.js'
+import { newReportPath, PATHS } from '../../routes/paths.js'
 import { NotFoundError, patientService } from '../../services/index.js'
+import { getReportsWithRelations } from '../../services/reportQueries.js'
 import { calculateAge, formatDate } from '../../utils/date.js'
 
 const SEX_LABELS = { F: 'Femenino', M: 'Masculino', X: 'Otro / No informa' }
@@ -60,7 +62,33 @@ function PatientDetail({ patient }) {
           )}
         </Card.Body>
       </Card>
+
+      <PatientReports patientId={patient.id} />
     </>
+  )
+}
+
+function PatientReports({ patientId }) {
+  // GET de los informes de este paciente, del más reciente al más antiguo.
+  const loadReports = useCallback(() => getReportsWithRelations({ patientId }), [patientId])
+  const { data: reports, loading, error, reload } = useAsync(loadReports)
+
+  return (
+    <Card as="section" className="border-0 shadow-sm mb-4" aria-labelledby="patient-reports-title">
+      <Card.Body>
+        <div className="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+          <Card.Title as="h2" id="patient-reports-title" className="h5 mb-0">Informes de especialistas</Card.Title>
+          <Button as={Link} to={newReportPath(patientId)} size="sm">+ Cargar informe</Button>
+        </div>
+
+        {loading && <LoadingState message="Cargando informes…" />}
+        {error && <ErrorState onRetry={reload} />}
+        {reports && reports.length > 0 && <ReportTable reports={reports} showPatient={false} />}
+        {reports && reports.length === 0 && (
+          <p className="text-body-secondary mb-0">Todavía no hay informes cargados para este paciente.</p>
+        )}
+      </Card.Body>
+    </Card>
   )
 }
 
@@ -72,7 +100,7 @@ function PatientDetailPage() {
 
   usePageMeta({
     title: `${patient?.name ?? 'Ficha del paciente'} | Nuova Vita`,
-    description: 'Ficha con los datos personales, la cobertura y el contacto de emergencia del paciente.',
+    description: 'Ficha con los datos personales, la cobertura, el contacto de emergencia y los informes del paciente.',
     noindex: true,
   })
 

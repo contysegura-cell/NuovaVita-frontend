@@ -7,6 +7,7 @@ const PHONE_ERROR = 'Ingresá un teléfono válido (solo números, espacios, gui
 // Matrícula nacional (MN) o provincial (MP).
 const LICENSE_REGEX = /^(MN|MP)\s*(\d{4,6})$/i
 const MAX_AGE = 120
+const MIN_EVALUATION_LENGTH = 10
 
 export function isValidEmail(email) {
   return EMAIL_REGEX.test(email.trim())
@@ -74,6 +75,28 @@ export function validateSpecialist(form, existing = []) {
   }
 
   if (!PHONE_REGEX.test(form.phone.trim())) errors.phone = PHONE_ERROR
+
+  return errors
+}
+
+// Valida el formulario de carga de informe de especialista.
+export function validateReport(form, today = new Date()) {
+  const errors = {}
+
+  if (!form.patientId) errors.patientId = 'Seleccioná el paciente.'
+  if (!form.specialistId) errors.specialistId = 'Seleccioná el especialista.'
+
+  if (!form.date) errors.date = 'Ingresá la fecha de la consulta.'
+  else if (parseDateOnly(form.date) > today) errors.date = 'La fecha de la consulta no puede ser futura.'
+
+  if (!form.reason.trim()) errors.reason = 'Ingresá el motivo de la consulta.'
+  if (form.evaluation.trim().length < MIN_EVALUATION_LENGTH) {
+    errors.evaluation = `Describí la evaluación (al menos ${MIN_EVALUATION_LENGTH} caracteres).`
+  }
+
+  if (form.nextControl && form.date && form.nextControl <= form.date) {
+    errors.nextControl = 'El próximo control debe ser posterior a la fecha de la consulta.'
+  }
 
   return errors
 }

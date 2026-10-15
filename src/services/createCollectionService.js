@@ -1,6 +1,6 @@
 import { getCollection, setCollection } from './storage.js'
 
-// API simulada: solo se usa para cargar y consultar pacientes y especialistas.
+// API simulada: se usa para cargar y consultar pacientes, especialistas e informes.
 // Expone únicamente operaciones equivalentes a GET (consultar) y POST (cargar).
 
 // Demora artificial para que la UI contemple estados de carga.
