@@ -178,6 +178,8 @@ VITE_API_URL=https://randomuser.me/api/
 
 Vite expone esta variable en React mediante `import.meta.env.VITE_API_URL`. Si se modifica `.env` mientras el servidor está funcionando, es necesario reiniciar `npm run dev`.
 
+En Vercel, la variable puede configurarse en **Project Settings > Environment Variables** para los ambientes deseados y luego volver a desplegar. Si no está definida, la aplicación usa `https://randomuser.me/api/` como valor predeterminado para que el equipo profesional también cargue en producción.
+
 ## Despliegue
 
 El proyecto se publica en [Vercel](https://vercel.com/). El archivo `vercel.json` redirige todas las rutas a `index.html` para que React Router funcione al recargar la página.

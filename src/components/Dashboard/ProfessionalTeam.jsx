@@ -8,7 +8,9 @@ import Spinner from 'react-bootstrap/Spinner'
 import axios from 'axios'
 import Swal from 'sweetalert2'
 
-const API_URL = import.meta.env.VITE_API_URL
+// La variable permite cambiar el proveedor por ambiente. El fallback evita que
+// un build de producción quede inutilizable si Vercel no tiene la variable.
+const API_URL = import.meta.env.VITE_API_URL || 'https://randomuser.me/api/'
 const specialties = ['Medicina general', 'Enfermería', 'Kinesiología', 'Nutrición']
 
 function ProfessionalAvatar() {
@@ -39,10 +41,6 @@ function ProfessionalTeam() {
       setError(null)
 
       try {
-        if (!API_URL) {
-          throw new Error('No se configuró la URL de la API.')
-        }
-
         const response = await axios.get(API_URL, {
           params: {
             results: 4,
