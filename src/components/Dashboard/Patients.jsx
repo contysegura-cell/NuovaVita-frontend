@@ -1,8 +1,12 @@
 import { useState } from 'react'
 import Badge from 'react-bootstrap/Badge'
+import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
 import Form from 'react-bootstrap/Form'
 import Table from 'react-bootstrap/Table'
+import { Link } from 'react-router-dom'
+import { patientDetailPath, PATHS } from '../../routes/paths.js'
+import { calculateAge } from '../../utils/date.js'
 import { normalizeText } from '../../utils/text.js'
 
 function Patients({ patients }) {
@@ -11,10 +15,11 @@ function Patients({ patients }) {
 
   const normalizedSearch = normalizeText(search.trim())
   const filteredPatients = patients.filter((patient) => {
-    const matchesName = normalizeText(patient.name).includes(normalizedSearch)
+    const matchesSearch =
+      normalizeText(patient.name).includes(normalizedSearch) || patient.dni.includes(search.trim())
     const matchesStatus = status === 'all' || patient.status === status
 
-    return matchesName && matchesStatus
+    return matchesSearch && matchesStatus
   })
 
   const resultText =
@@ -23,24 +28,24 @@ function Patients({ patients }) {
       : `${filteredPatients.length} pacientes encontrados`
 
   return (
-    <Card id="patients-section" className="border-0 shadow-sm mt-4">
+    <Card id="patients-section" className="border-0 shadow-sm">
       <Card.Body>
         <div className="d-flex flex-column flex-lg-row justify-content-between gap-3 mb-4">
           <div>
             <Card.Title as="h2" className="h3 mb-1">
-              Pacientes
+              Residentes
             </Card.Title>
             <Card.Text className="text-body-secondary mb-0">
               Consultá los residentes registrados en el sistema.
             </Card.Text>
           </div>
 
-          <div className="d-flex flex-column flex-sm-row gap-2">
+          <div className="d-flex flex-column flex-sm-row gap-2 align-items-sm-start">
             <Form.Group controlId="patient-search">
               <Form.Label visuallyHidden>Buscar paciente</Form.Label>
               <Form.Control
                 type="search"
-                placeholder="Buscar por nombre"
+                placeholder="Buscar por nombre o DNI"
                 autoComplete="off"
                 value={search}
                 onChange={(event) => setSearch(event.target.value)}
@@ -58,6 +63,10 @@ function Patients({ patients }) {
                 <option value="inactive">Inactivos</option>
               </Form.Select>
             </Form.Group>
+
+            <Button as={Link} to={PATHS.newPatient} className="text-nowrap">
+              + Nuevo paciente
+            </Button>
           </div>
         </div>
 
@@ -70,6 +79,9 @@ function Patients({ patients }) {
             <thead>
               <tr>
                 <th scope="col">Paciente</th>
+                <th scope="col">DNI</th>
+                <th scope="col">Edad</th>
+                <th scope="col">Obra social</th>
                 <th scope="col">Estado</th>
               </tr>
             </thead>
@@ -79,7 +91,12 @@ function Patients({ patients }) {
 
                 return (
                   <tr key={patient.id}>
-                    <td>{patient.name}</td>
+                    <td>
+                      <Link to={patientDetailPath(patient.id)}>{patient.name}</Link>
+                    </td>
+                    <td>{patient.dni}</td>
+                    <td>{calculateAge(patient.birthDate)}</td>
+                    <td>{patient.healthInsurance}</td>
                     <td>
                       <Badge bg={isActive ? 'success' : 'secondary'}>
                         {isActive ? 'Activo' : 'Inactivo'}
