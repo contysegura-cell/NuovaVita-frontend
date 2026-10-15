@@ -1,4 +1,4 @@
-// Datos de la API simulada (pacientes y especialistas) guardados en
+// Datos de la API simulada (pacientes, especialistas e informes) guardados en
 // localStorage. Los componentes acceden a través de los servicios, nunca
 // directamente a este módulo.
 import { createSeed } from '../data/seed.js'
@@ -7,7 +7,7 @@ export const STORAGE_KEY = 'nuovaVita.db'
 
 // Subir este número cuando cambie la forma de los datos: los datos guardados
 // con otra versión se descartan y se vuelve a cargar la semilla.
-export const DB_VERSION = 2
+export const DB_VERSION = 3
 
 let memoryDb = null
 
