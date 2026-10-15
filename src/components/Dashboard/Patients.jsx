@@ -41,11 +41,11 @@ function Patients({ patients }) {
           </div>
 
           <div className="d-flex flex-column flex-sm-row gap-2 align-items-sm-start">
-            <Form.Group controlId="patient-search">
+            <Form.Group controlId="patient-search" className="search-field">
               <Form.Label visuallyHidden>Buscar paciente</Form.Label>
               <Form.Control
                 type="search"
-                placeholder="Buscar por nombre o DNI"
+                placeholder="Nombre o DNI"
                 autoComplete="off"
                 value={search}
                 onChange={(event) => setSearch(event.target.value)}

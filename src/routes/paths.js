@@ -6,6 +6,9 @@ export const PATHS = {
   patients: '/dashboard/pacientes',
   newPatient: '/dashboard/pacientes/nuevo',
   patientDetail: '/dashboard/pacientes/:id',
+  specialists: '/dashboard/especialistas',
+  newSpecialist: '/dashboard/especialistas/nuevo',
+  specialistDetail: '/dashboard/especialistas/:id',
   clinicalHistory: '/dashboard/historia-clinica',
   reports: '/dashboard/informes',
   activities: '/dashboard/actividades',
@@ -15,4 +18,8 @@ export const PATHS = {
 
 export function patientDetailPath(id) {
   return PATHS.patientDetail.replace(':id', encodeURIComponent(id))
+}
+
+export function specialistDetailPath(id) {
+  return PATHS.specialistDetail.replace(':id', encodeURIComponent(id))
 }
