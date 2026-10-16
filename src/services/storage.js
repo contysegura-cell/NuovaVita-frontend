@@ -57,8 +57,3 @@ export function setCollection(name, items) {
 export function resetDb() {
   persist(seedDb())
 }
-
-// Solo para tests: olvida la copia en memoria para forzar una relectura.
-export function clearMemoryCache() {
-  memoryDb = null
-}
