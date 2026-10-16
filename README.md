@@ -94,12 +94,14 @@ src/
 ├── hooks/             # usePageMeta (SEO) y useAsync (estados de carga)
 ├── layouts/           # PrivateLayout: menú lateral + contenido de cada sección
 ├── pages/             # Una carpeta por página
-├── routes/paths.js    # Todas las URLs de la app
+├── routes/
+│   ├── paths.js       # Todas las URLs de la app
+│   └── AppRoutes.jsx  # Qué página se muestra en cada URL
 ├── services/          # API simulada de pacientes y especialistas
 ├── styles/            # Tema de marca sobre Bootstrap: paleta y tipografías (theme.css)
 ├── test/              # Configuración de los tests
 ├── utils/             # Funciones puras (fechas, texto, validaciones)
-├── App.jsx            # Definición de rutas
+├── App.jsx            # Componente raíz: ErrorBoundary + rutas
 └── main.jsx           # Punto de entrada
 ```
 
