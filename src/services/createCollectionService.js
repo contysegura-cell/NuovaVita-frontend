@@ -4,7 +4,7 @@ import { getCollection, setCollection } from './storage.js'
 // Expone únicamente operaciones equivalentes a GET (consultar) y POST (cargar).
 
 // Demora artificial para que la UI contemple estados de carga.
-export const SIMULATED_LATENCY_MS = import.meta.env.MODE === 'test' ? 0 : 300
+const SIMULATED_LATENCY_MS = 300
 
 function delay(value) {
   return new Promise((resolve) => setTimeout(() => resolve(value), SIMULATED_LATENCY_MS))

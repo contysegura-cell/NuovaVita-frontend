@@ -49,7 +49,6 @@ Este repositorio es la migración a **React + Vite** del proyecto original en HT
 | [Axios](https://axios-http.com/) | Peticiones HTTP a la API pública |
 | [SweetAlert2](https://sweetalert2.github.io/) | Mensajes de error durante el consumo de la API |
 | [ESLint](https://eslint.org/) | Análisis estático del código |
-| [Vitest](https://vitest.dev/) + [Testing Library](https://testing-library.com/) | Tests automatizados |
 
 ## Consumo de API pública (TP Nº 8)
 
@@ -97,7 +96,6 @@ src/
 ├── routes/paths.js    # Todas las URLs de la app
 ├── services/          # API simulada de pacientes y especialistas
 ├── styles/            # Tema de marca sobre Bootstrap: paleta y tipografías (theme.css)
-├── test/              # Configuración de los tests
 ├── utils/             # Funciones puras (fechas, texto, validaciones)
 ├── App.jsx            # Definición de rutas
 └── main.jsx           # Punto de entrada
@@ -135,7 +133,7 @@ cd NuovaVita-frontend
 npm install
 
 # 3. Crear el archivo local de variables de entorno
-cp .env.example .env
+echo "VITE_API_URL=https://randomuser.me/api/" > .env
 
 # 4. Iniciar el servidor de desarrollo
 npm run dev
@@ -151,26 +149,12 @@ Abrir en el navegador la dirección que muestra la terminal (por lo general `htt
 | `npm run build` | Genera la versión de producción en `dist/` |
 | `npm run preview` | Sirve localmente la versión de producción |
 | `npm run lint` | Revisa el código con ESLint |
-| `npm test` | Ejecuta los tests una vez |
-| `npm run test:watch` | Ejecuta los tests en modo observación |
 
 ## Variables de entorno
 
 La URL de la API se configura en un archivo `.env` en la raíz del proyecto. Este archivo **no se sube a GitHub** porque está incluido en `.gitignore`.
 
-Después de clonar el repositorio, copiar `.env.example` como `.env`:
-
-```bash
-cp .env.example .env
-```
-
-En Windows PowerShell también se puede utilizar:
-
-```powershell
-Copy-Item .env.example .env
-```
-
-La variable requerida es:
+Después de clonar el repositorio, crear el archivo `.env` con la siguiente variable:
 
 ```
 VITE_API_URL=https://randomuser.me/api/
